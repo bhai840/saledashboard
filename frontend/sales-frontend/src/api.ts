@@ -1,0 +1,24 @@
+import axios from "axios";
+
+const client = axios.create({
+  baseURL: ".",
+});
+
+export const fetchSaleItems = () =>
+  client.get(`./data/sale_data.json?ts=${Date.now()}`).then((response) => {
+    const payload = response.data;
+
+    if (Array.isArray(payload)) {
+      return payload;
+    }
+
+    if (payload && Array.isArray(payload.items)) {
+      return payload.items;
+    }
+
+    if (payload && Array.isArray(payload.data)) {
+      return payload.data;
+    }
+
+    return [];
+  });
